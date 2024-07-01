@@ -1,0 +1,29 @@
+<?php
+
+var_dump($_POST);
+
+try{ --------> Tentar executar o codigo caso uma excessão aconteça
+, se não tiver erro, ele ira ignorar as intruções Catch
+
+
+
+$user = $_POST['usuario']; -----------------> Um array que armazena valores, no caso uma variavel
+$password = $_POST['senha']; -----------------> Um array que armazena valores, no caso uma variavel
+
+$conn = new PDO("mysql:host=localhost;dbname=filmes","root",""); --------------> Pra realizar uma conexão com o banco
+
+$script = 'INSERT INTO tb_usuario (usuario, senha) VALUE (:usuario, :senha)'; --------------> Para inserir as informações no banco
+
+$pre = $conn->prepare($script); ----------> Uma declaração pra fazer a execução no banco de dados
+
+$var = [ 
+    ':usuario' => $user,
+    ':senha' => $password
+];
+
+$pre->execute($var); -------> Para enviar a consulta SQL para o banco de dados e obter resultados, se houver
+
+} catch (PDOException $erro){ 
+
+    echo "Seguinte deu pau no sistema" . $erro->getMessage();
+}
